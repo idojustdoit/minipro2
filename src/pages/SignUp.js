@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import axios from 'axios'
-import { emailCheck, passwordCheck, DoubleCheck } from "../shared/Validate";
+
 
 
 function SignUp() {
@@ -18,39 +18,14 @@ function SignUp() {
     const [password, setPwd] = React.useState("");
     const [pwdCheck, setPwdCheck] = React.useState("");
 
-    const [id_check, checkId] = React.useState(false);
-    const [pwd_check, checkPwd] = React.useState(false);
-    const [pwd_double_check, checkPwdCheck] = React.useState(false);
 
-    
-   
     const signupdata = () => {
-        if(!emailCheck(id_ref.current.value)){
-            checkId(true);
-            window.alert("이메일 형식이 맞지 않습니다!");
-        };
-
-        if(!passwordCheck(pw_ref.current.value)){
-            checkPwd(true);
-            window.alert("비밀번호 형식이 맞지 않습니다!")
-            return;
-        };
-
-        if(!DoubleCheck(pw_ref.current.value, pw_check_ref.current.value)){
-            checkPwdCheck(true);
-            window.alert("비밀번호가 같지 않습니다!")
-            return;
-        };
-        if (
-            emailCheck(id_ref.current.value) &&
-            passwordCheck(pw_ref.current.value) &&
-            DoubleCheck(pw_ref.current.value, pw_check_ref.current.value)
-        ){
-        axios.post("http://localhost:5001/list",{
-            "profile":profile_ref.current.value,
-            "ID" : id_ref.current.value,
+     {
+        axios.post("/api/user/signup",{
+            "img_url":profile_ref.current.value,
+            "userId" : id_ref.current.value,
             "password": pw_ref.current.value,
-            "passwordCheck": pw_check_ref.current.value
+            "password_confirm": pw_check_ref.current.value
         }).then(function(response){
             alert("회원가입을 축하드립니다!!")
             navigate('/');
